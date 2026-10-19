@@ -177,10 +177,10 @@ cells:
   "184": {dataRef: "lk184", strokeColor: {thresholdsRef: "linkUtil"}}
   # 352   MX-MSK70-7702          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]   # дубль линии 184
   "352": {dataRef: "lk184", strokeColor: {thresholdsRef: "linkUtil"}}
-  # 178   MX-MSK70-7707          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]
-  "178": {dataRef: "lk178", strokeColor: {thresholdsRef: "linkUtil"}}
-  # 346   MX-MSK70-7707          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]   # дубль линии 178
-  "346": {dataRef: "lk178", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 178   MX-MSK70-7707          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]   # запрос: 8*rate(ifHCInOctets{instance="mx-msk70-7707.net.pri",ifName="port-channel34"}[$__rate_interval])
+  "178": {dataRef: "lk178", strokeColor: {thresholdsRef: "linkBps"}}
+  # 346   MX-MSK70-7707          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]   # дубль линии 178; та же серия lk178
+  "346": {dataRef: "lk178", strokeColor: {thresholdsRef: "linkBps"}}
 
   # ---------------------------------------------------------------- MSK70 ↔ MSKD8
   # 382   FX-MSK70-PCI91         <-> FX-MSKD8-PCI90         [40G IP only]
