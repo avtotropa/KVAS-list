@@ -1,0 +1,391 @@
+---
+# ==============================================================================
+# Подкраска ЛИНИЙ СВЯЗНОСТИ по загрузке интерфейса (%)
+# Панель FLOW (andrewbmchugh-flow-panel). Схема: core-2-flow.svg
+# Datasource: Prometheus + snmp_exporter
+#
+# cellIdPreamble = "cell-" — панель ищет в SVG элементы с id="cell-<ключ>".
+# Каждая запись в cells — ОДНА линия связи на схеме (ячейка draw.io).
+# dataRef = имя time-series ровно в том виде, в котором его отдаёт Grafana,
+#   т.е. значение legendFormat у запроса. По умолчанию принято "lk<cell_id>",
+#   например lk263 — задайте legendFormat: lk263 у соответствующего запроса.
+#   Если удобнее свои имена (ifAlias, ifName и т.п.) — впишите их в
+#   flow/link-map.csv (колонка your_prometheus_series) и перезапустите
+#   tools/build_flow.py либо просто замените dataRef в этом файле.
+#
+# Пороги берутся из siteConfig -> thresholds.linkUtil (0/70/85/95 %).
+# PromQL (snmp_exporter), legendFormat = <dataRef>, например lk263:
+#   100 * 8 * rate(ifHCInOctets{ifIndex="42",instance="msk70"}[$__rate_interval])
+#     / (ifHighSpeed{ifIndex="42",instance="msk70"} * 1e6)
+
+# ==============================================================================
+
+cellIdPreamble: "cell-"
+
+# none = цвет переключается ступенькой на пороге; hue = плавный градиент
+gradientMode: "none"
+
+# last = последняя точка окна; lastNotNull = последняя непустая (устойчивее)
+datapoint: "lastNotNull"
+
+cellLabelDecimalPoints: 1
+
+cells:
+
+  # ---------------------------------------------------------------- MSK34 (внутри сайта)
+  # 222   MS-MSK34-7706          <-> MX-MSK34-7702          [40G IP + MPLS-LDP + PIM]
+  "222": {dataRef: "lk222", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 367   MS-MSK34-7706          <-> MX-MSK34-7702          [40G IP + MPLS-LDP + PIM]   # дубль линии 222
+  "367": {dataRef: "lk222", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 377   MS-MSK34-9109          <-> MS-MSK34-9110          [100G IP + MPLS-LDP + PIM]
+  "377": {dataRef: "lk377", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 229   MS-MSK34-9109          <-> MS-MSK34-9120          [100G IP + MPLS-LDP + PIM]
+  "229": {dataRef: "lk229", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 374   MS-MSK34-9109          <-> MS-MSK34-9120          [100G IP + MPLS-LDP + PIM]   # дубль линии 229
+  "374": {dataRef: "lk229", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 237   MS-MSK34-9120          <-> MS-MSK34-9110          [100G IP + MPLS-LDP + PIM]
+  "237": {dataRef: "lk237", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 376   MS-MSK34-9120          <-> MS-MSK34-9110          [100G IP + MPLS-LDP + PIM]   # дубль линии 237
+  "376": {dataRef: "lk237", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 227   MX-MSK34-7701          <-> MX-MSK34-7707          [40G IP + MPLS-LDP + PIM]
+  "227": {dataRef: "lk227", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 372   MX-MSK34-7701          <-> MX-MSK34-7707          [40G IP + MPLS-LDP + PIM]   # дубль линии 227
+  "372": {dataRef: "lk227", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 226   MX-MSK34-7701          <-> MX-MSK34-7708          [40G IP + MPLS-LDP + PIM]
+  "226": {dataRef: "lk226", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 371   MX-MSK34-7701          <-> MX-MSK34-7708          [40G IP + MPLS-LDP + PIM]   # дубль линии 226
+  "371": {dataRef: "lk226", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 223   MX-MSK34-7702          <-> MX-MSK34-7701          [40G IP + MPLS-LDP + PIM]
+  "223": {dataRef: "lk223", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 368   MX-MSK34-7702          <-> MX-MSK34-7701          [40G IP + MPLS-LDP + PIM]   # дубль линии 223
+  "368": {dataRef: "lk223", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 224   MX-MSK34-7702          <-> MX-MSK34-7707          [40G IP + MPLS-LDP + PIM]
+  "224": {dataRef: "lk224", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 369   MX-MSK34-7702          <-> MX-MSK34-7707          [40G IP + MPLS-LDP + PIM]   # дубль линии 224
+  "369": {dataRef: "lk224", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 225   MX-MSK34-7702          <-> MX-MSK34-7708          [40G IP + MPLS-LDP + PIM]
+  "225": {dataRef: "lk225", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 370   MX-MSK34-7702          <-> MX-MSK34-7708          [40G IP + MPLS-LDP + PIM]   # дубль линии 225
+  "370": {dataRef: "lk225", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 236   MX-MSK34-7705          <-> MX-MSK34-7701          [40G IP + MPLS-LDP + PIM]
+  "236": {dataRef: "lk236", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 375   MX-MSK34-7705          <-> MX-MSK34-7701          [40G IP + MPLS-LDP + PIM]   # дубль линии 236
+  "375": {dataRef: "lk236", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 228   MX-MSK34-7707          <-> MX-MSK34-7708          [40G IP + MPLS-LDP + PIM]
+  "228": {dataRef: "lk228", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 373   MX-MSK34-7707          <-> MX-MSK34-7708          [40G IP + MPLS-LDP + PIM]   # дубль линии 228
+  "373": {dataRef: "lk228", strokeColor: {thresholdsRef: "linkUtil"}}
+
+  # ---------------------------------------------------------------- MSK34 ↔ MSKD8
+  # 239   MS-MSK34-9110          <-> MS-MSKD8-0001          [100G IP + MPLS-LDP + PIM]
+  "239": {dataRef: "lk239", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 240   MS-MSK34-9110          <-> MS-MSKD8-0002          [100G IP + MPLS-LDP + PIM]
+  "240": {dataRef: "lk240", strokeColor: {thresholdsRef: "linkUtil"}}
+
+  # ---------------------------------------------------------------- MSK34 ↔ MSK70
+  # 386   MS-MSK70-0001          <-> MS-MSK34-9109          [100G IP + MPLS-LDP + PIM]
+  "386": {dataRef: "lk386", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 246   MS-MSK70-0002          <-> MS-MSK34-9109          [100G IP + MPLS-LDP + PIM]
+  "246": {dataRef: "lk246", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 394   MX-MSK70-7702          <-> MX-MSK34-7701          [40G IP + MPLS-LDP + PIM]
+  "394": {dataRef: "lk394", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 395   MX-MSK70-7702          <-> MX-MSK34-7701          [40G IP + MPLS-LDP + PIM]   # дубль линии 394
+  "395": {dataRef: "lk394", strokeColor: {thresholdsRef: "linkUtil"}}
+
+  # ---------------------------------------------------------------- MSK70 (внутри сайта)
+  # 171   FX-MSK70-PCI90         <-> FX-MSK70-PCI91         [40G IP only]
+  "171": {dataRef: "lk171", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 339   FX-MSK70-PCI90         <-> FX-MSK70-PCI91         [40G IP only]   # дубль линии 171
+  "339": {dataRef: "lk171", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 174   FX-MSK70-PCI90         <-> MS-MSK70-0001          [100G IP only]
+  "174": {dataRef: "lk174", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 342   FX-MSK70-PCI90         <-> MS-MSK70-0001          [100G IP only]   # дубль линии 174
+  "342": {dataRef: "lk174", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 172   FX-MSK70-PCI90         <-> MS-MSK70-0002          [100G IP only]
+  "172": {dataRef: "lk172", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 340   FX-MSK70-PCI90         <-> MS-MSK70-0002          [100G IP only]   # дубль линии 172
+  "340": {dataRef: "lk172", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 173   FX-MSK70-PCI91         <-> MS-MSK70-0001          [100G IP only]
+  "173": {dataRef: "lk173", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 341   FX-MSK70-PCI91         <-> MS-MSK70-0001          [100G IP only]   # дубль линии 173
+  "341": {dataRef: "lk173", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 175   FX-MSK70-PCI91         <-> MS-MSK70-0002          [100G IP only]
+  "175": {dataRef: "lk175", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 343   FX-MSK70-PCI91         <-> MS-MSK70-0002          [100G IP only]   # дубль линии 175
+  "343": {dataRef: "lk175", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 168   MS-MSK70-0001          <-> MS-MSK70-0002          [100G IP + MPLS-LDP + PIM]
+  "168": {dataRef: "lk168", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 336   MS-MSK70-0001          <-> MS-MSK70-0002          [100G IP + MPLS-LDP + PIM]   # дубль линии 168
+  "336": {dataRef: "lk168", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 176   MS-MSK70-0001          <-> MX-MSK70-7707          [40G IP + MPLS-LDP + PIM]
+  "176": {dataRef: "lk176", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 344   MS-MSK70-0001          <-> MX-MSK70-7707          [40G IP + MPLS-LDP + PIM]   # дубль линии 176
+  "344": {dataRef: "lk176", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 169   MS-MSK70-0001          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]
+  "169": {dataRef: "lk169", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 337   MS-MSK70-0001          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]   # дубль линии 169
+  "337": {dataRef: "lk169", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 170   MS-MSK70-0002          <-> MX-MSK70-7707          [40G IP + MPLS-LDP + PIM]
+  "170": {dataRef: "lk170", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 338   MS-MSK70-0002          <-> MX-MSK70-7707          [40G IP + MPLS-LDP + PIM]   # дубль линии 170
+  "338": {dataRef: "lk170", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 177   MS-MSK70-0002          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]
+  "177": {dataRef: "lk177", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 345   MS-MSK70-0002          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]   # дубль линии 177
+  "345": {dataRef: "lk177", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 179   MS-MSK70-0009          <-> MS-MSK70-0001          [100G IP + MPLS-LDP + PIM]
+  "179": {dataRef: "lk179", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 347   MS-MSK70-0009          <-> MS-MSK70-0001          [100G IP + MPLS-LDP + PIM]   # дубль линии 179
+  "347": {dataRef: "lk179", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 180   MS-MSK70-0009          <-> MS-MSK70-0002          [100G IP + MPLS-LDP + PIM]
+  "180": {dataRef: "lk180", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 348   MS-MSK70-0009          <-> MS-MSK70-0002          [100G IP + MPLS-LDP + PIM]   # дубль линии 180
+  "348": {dataRef: "lk180", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 181   MS-MSK70-0010          <-> MS-MSK70-0001          [100G IP + MPLS-LDP + PIM]
+  "181": {dataRef: "lk181", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 349   MS-MSK70-0010          <-> MS-MSK70-0001          [100G IP + MPLS-LDP + PIM]   # дубль линии 181
+  "349": {dataRef: "lk181", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 182   MS-MSK70-0010          <-> MS-MSK70-0002          [100G IP + MPLS-LDP + PIM]
+  "182": {dataRef: "lk182", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 350   MS-MSK70-0010          <-> MS-MSK70-0002          [100G IP + MPLS-LDP + PIM]   # дубль линии 182
+  "350": {dataRef: "lk182", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 187   MX-MSK70-7701          <-> MX-MSK70-7702          [40G IP + MPLS-LDP + PIM]
+  "187": {dataRef: "lk187", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 355   MX-MSK70-7701          <-> MX-MSK70-7702          [40G IP + MPLS-LDP + PIM]   # дубль линии 187
+  "355": {dataRef: "lk187", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 188   MX-MSK70-7701          <-> MX-MSK70-7705          [40G IP + MPLS-LDP + PIM]
+  "188": {dataRef: "lk188", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 356   MX-MSK70-7701          <-> MX-MSK70-7705          [40G IP + MPLS-LDP + PIM]   # дубль линии 188
+  "356": {dataRef: "lk188", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 183   MX-MSK70-7701          <-> MX-MSK70-7707          [40G IP + MPLS-LDP + PIM]
+  "183": {dataRef: "lk183", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 351   MX-MSK70-7701          <-> MX-MSK70-7707          [40G IP + MPLS-LDP + PIM]   # дубль линии 183
+  "351": {dataRef: "lk183", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 185   MX-MSK70-7701          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]
+  "185": {dataRef: "lk185", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 353   MX-MSK70-7701          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]   # дубль линии 185
+  "353": {dataRef: "lk185", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 189   MX-MSK70-7702          <-> MX-MSK70-7706          [40G IP + MPLS-LDP + PIM]
+  "189": {dataRef: "lk189", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 357   MX-MSK70-7702          <-> MX-MSK70-7706          [40G IP + MPLS-LDP + PIM]   # дубль линии 189
+  "357": {dataRef: "lk189", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 186   MX-MSK70-7702          <-> MX-MSK70-7707          [40G IP + MPLS-LDP + PIM]
+  "186": {dataRef: "lk186", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 354   MX-MSK70-7702          <-> MX-MSK70-7707          [40G IP + MPLS-LDP + PIM]   # дубль линии 186
+  "354": {dataRef: "lk186", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 184   MX-MSK70-7702          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]
+  "184": {dataRef: "lk184", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 352   MX-MSK70-7702          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]   # дубль линии 184
+  "352": {dataRef: "lk184", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 178   MX-MSK70-7707          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]
+  "178": {dataRef: "lk178", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 346   MX-MSK70-7707          <-> MX-MSK70-7708          [40G IP + MPLS-LDP + PIM]   # дубль линии 178
+  "346": {dataRef: "lk178", strokeColor: {thresholdsRef: "linkUtil"}}
+
+  # ---------------------------------------------------------------- MSK70 ↔ MSKD8
+  # 382   FX-MSK70-PCI91         <-> FX-MSKD8-PCI90         [40G IP only]
+  "382": {dataRef: "lk382", strokeColor: {thresholdsRef: "linkUtil"}}
+
+  # ---------------------------------------------------------------- MSK34 ↔ MSKD8
+  # 249   MS-MSKD8-7701          <-> MX-MSK34-7702          [40G IP + MPLS-LDP + PIM]
+  "249": {dataRef: "lk249", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 250   MS-MSKD8-7701          <-> MX-MSK34-7702          [40G IP + MPLS-LDP + PIM]   # дубль линии 249
+  "250": {dataRef: "lk249", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 387   MS-MSKD8-7701          <-> MX-MSK34-7702          [40G IP + MPLS-LDP + PIM]   # дубль линии 249
+  "387": {dataRef: "lk249", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 388   MS-MSKD8-7701          <-> MX-MSK34-7702          [40G IP + MPLS-LDP + PIM]   # дубль линии 249
+  "388": {dataRef: "lk249", strokeColor: {thresholdsRef: "linkUtil"}}
+
+  # ---------------------------------------------------------------- MSK70 ↔ MSKD8
+  # 266   MS-MSKD8-0001          <-> MS-MSK70-0002          [100G IP + MPLS-LDP + PIM]
+  "266": {dataRef: "lk266", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 258   MS-MSKD8-7702          <-> MX-MSK70-7701          [40G IP + MPLS-LDP + PIM]
+  "258": {dataRef: "lk258", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 259   MS-MSKD8-7702          <-> MX-MSK70-7701          [40G IP + MPLS-LDP + PIM]   # дубль линии 258
+  "259": {dataRef: "lk258", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 396   MS-MSKD8-7702          <-> MX-MSK70-7701          [40G IP + MPLS-LDP + PIM]   # дубль линии 258
+  "396": {dataRef: "lk258", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 397   MS-MSKD8-7702          <-> MX-MSK70-7701          [40G IP + MPLS-LDP + PIM]   # дубль линии 258
+  "397": {dataRef: "lk258", strokeColor: {thresholdsRef: "linkUtil"}}
+
+  # ---------------------------------------------------------------- MSKD8 (внутри сайта)
+  # 36    FX-MSKD8-PCI91         <-> FX-MSKD8-PCI90         [40G IP only]
+  "36": {dataRef: "lk36", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 263   FX-MSKD8-PCI91         <-> FX-MSKD8-PCI90         [40G IP only]   # дубль линии 36
+  "263": {dataRef: "lk36", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 41    MS-MSKD8-0001          <-> FX-MSKD8-PCI90         [100G IP only]
+  "41": {dataRef: "lk41", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 269   MS-MSKD8-0001          <-> FX-MSKD8-PCI90         [100G IP only]   # дубль линии 41
+  "269": {dataRef: "lk41", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 55    MS-MSKD8-0001          <-> FX-MSKD8-PCI91         [100G IP only]
+  "55": {dataRef: "lk55", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 283   MS-MSKD8-0001          <-> FX-MSKD8-PCI91         [100G IP only]   # дубль линии 55
+  "283": {dataRef: "lk55", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 45    MS-MSKD8-0001          <-> MS-MSKD8-7707          [40G IP + MPLS-LDP + PIM]
+  "45": {dataRef: "lk45", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 273   MS-MSKD8-0001          <-> MS-MSKD8-7707          [40G IP + MPLS-LDP + PIM]   # дубль линии 45
+  "273": {dataRef: "lk45", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 54    MS-MSKD8-0002          <-> FX-MSKD8-PCI90         [100G IP only]
+  "54": {dataRef: "lk54", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 282   MS-MSKD8-0002          <-> FX-MSKD8-PCI90         [100G IP only]   # дубль линии 54
+  "282": {dataRef: "lk54", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 38    MS-MSKD8-0002          <-> FX-MSKD8-PCI91         [100G IP only]
+  "38": {dataRef: "lk38", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 265   MS-MSKD8-0002          <-> FX-MSKD8-PCI91         [100G IP only]   # дубль линии 38
+  "265": {dataRef: "lk38", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 40    MS-MSKD8-0002          <-> MS-MSKD8-0001          [100G IP + MPLS-LDP + PIM]
+  "40": {dataRef: "lk40", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 268   MS-MSKD8-0002          <-> MS-MSKD8-0001          [100G IP + MPLS-LDP + PIM]   # дубль линии 40
+  "268": {dataRef: "lk40", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 44    MS-MSKD8-0002          <-> MS-MSKD8-7708          [40G IP + MPLS-LDP + PIM]
+  "44": {dataRef: "lk44", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 272   MS-MSKD8-0002          <-> MS-MSKD8-7708          [40G IP + MPLS-LDP + PIM]   # дубль линии 44
+  "272": {dataRef: "lk44", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 66    MS-MSKD8-0009          <-> MS-MSKD8-0001          [100G IP + MPLS-LDP + PIM]
+  "66": {dataRef: "lk66", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 69    MS-MSKD8-0009          <-> MS-MSKD8-0002          [100G IP + MPLS-LDP + PIM]
+  "69": {dataRef: "lk69", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 68    MS-MSKD8-0010          <-> MS-MSKD8-0001          [100G IP + MPLS-LDP + PIM]
+  "68": {dataRef: "lk68", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 67    MS-MSKD8-0010          <-> MS-MSKD8-0002          [100G IP + MPLS-LDP + PIM]
+  "67": {dataRef: "lk67", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 59    MS-MSKD8-7701          <-> MS-MSKD8-7702          [40G IP + MPLS-LDP + PIM]
+  "59": {dataRef: "lk59", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 286   MS-MSKD8-7701          <-> MS-MSKD8-7702          [40G IP + MPLS-LDP + PIM]   # дубль линии 59
+  "286": {dataRef: "lk59", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 62    MS-MSKD8-7701          <-> MS-MSKD8-7705          [40G IP + MPLS-LDP + PIM]
+  "62": {dataRef: "lk62", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 288   MS-MSKD8-7701          <-> MS-MSKD8-7705          [40G IP + MPLS-LDP + PIM]   # дубль линии 62
+  "288": {dataRef: "lk62", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 61    MS-MSKD8-7702          <-> MS-MSKD8-7706          [40G IP + MPLS-LDP + PIM]
+  "61": {dataRef: "lk61", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 287   MS-MSKD8-7702          <-> MS-MSKD8-7706          [40G IP + MPLS-LDP + PIM]   # дубль линии 61
+  "287": {dataRef: "lk61", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 53    MS-MSKD8-7707          <-> MS-MSKD8-0002          [40G IP + MPLS-LDP + PIM]
+  "53": {dataRef: "lk53", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 281   MS-MSKD8-7707          <-> MS-MSKD8-0002          [40G IP + MPLS-LDP + PIM]   # дубль линии 53
+  "281": {dataRef: "lk53", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 49    MS-MSKD8-7707          <-> MS-MSKD8-7701          [40G IP + MPLS-LDP + PIM]
+  "49": {dataRef: "lk49", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 277   MS-MSKD8-7707          <-> MS-MSKD8-7701          [40G IP + MPLS-LDP + PIM]   # дубль линии 49
+  "277": {dataRef: "lk49", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 51    MS-MSKD8-7707          <-> MS-MSKD8-7702          [40G IP + MPLS-LDP + PIM]
+  "51": {dataRef: "lk51", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 279   MS-MSKD8-7707          <-> MS-MSKD8-7702          [40G IP + MPLS-LDP + PIM]   # дубль линии 51
+  "279": {dataRef: "lk51", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 52    MS-MSKD8-7708          <-> MS-MSKD8-0001          [40G IP + MPLS-LDP + PIM]
+  "52": {dataRef: "lk52", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 280   MS-MSKD8-7708          <-> MS-MSKD8-0001          [40G IP + MPLS-LDP + PIM]   # дубль линии 52
+  "280": {dataRef: "lk52", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 50    MS-MSKD8-7708          <-> MS-MSKD8-7701          [40G IP + MPLS-LDP + PIM]
+  "50": {dataRef: "lk50", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 278   MS-MSKD8-7708          <-> MS-MSKD8-7701          [40G IP + MPLS-LDP + PIM]   # дубль линии 50
+  "278": {dataRef: "lk50", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 48    MS-MSKD8-7708          <-> MS-MSKD8-7702          [40G IP + MPLS-LDP + PIM]
+  "48": {dataRef: "lk48", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 276   MS-MSKD8-7708          <-> MS-MSKD8-7702          [40G IP + MPLS-LDP + PIM]   # дубль линии 48
+  "276": {dataRef: "lk48", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 251   MS-MSKD8-7708          <-> MS-MSKD8-7707          [40G IP + MPLS-LDP + PIM]
+  "251": {dataRef: "lk251", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 389   MS-MSKD8-7708          <-> MS-MSKD8-7707          [40G IP + MPLS-LDP + PIM]   # дубль линии 251
+  "389": {dataRef: "lk251", strokeColor: {thresholdsRef: "linkUtil"}}
+
+  # ---------------------------------------------------------------- MSKD8 ↔ MSKX5
+  # 380   FX-MSKD8-PCI91         <-> FX-MSKX5-PCI90         [40G IP only]
+  "380": {dataRef: "lk380", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 244   MS-MSKD8-0002          <-> MS-MSKX5-0001          [100G IP + MPLS-LDP + PIM]
+  "244": {dataRef: "lk244", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 390   MS-MSKD8-7702          <-> MS-MSKX5-0009          [40G IP + MPLS-LDP + PIM]
+  "390": {dataRef: "lk390", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 391   MS-MSKD8-7702          <-> MS-MSKX5-0009          [40G IP + MPLS-LDP + PIM]   # дубль линии 390
+  "391": {dataRef: "lk390", strokeColor: {thresholdsRef: "linkUtil"}}
+
+  # ---------------------------------------------------------------- MSK70 ↔ MSKX5
+  # 242   FX-MSKX5-PCI91         <-> FX-MSK70-PCI90         [40G IP only]
+  "242": {dataRef: "lk242", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 381   FX-MSKX5-PCI91         <-> FX-MSK70-PCI90         [40G IP only]   # дубль линии 242
+  "381": {dataRef: "lk242", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 384   MS-MSKX5-0002          <-> MS-MSK70-0001          [100G IP + MPLS-LDP + PIM]
+  "384": {dataRef: "lk384", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 392   MS-MSKX5-0010          <-> MX-MSK70-7701          [40G IP + MPLS-LDP + PIM]
+  "392": {dataRef: "lk392", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 393   MS-MSKX5-0010          <-> MX-MSK70-7701          [40G IP + MPLS-LDP + PIM]   # дубль линии 392
+  "393": {dataRef: "lk392", strokeColor: {thresholdsRef: "linkUtil"}}
+
+  # ---------------------------------------------------------------- MSKX5 (внутри сайта)
+  # 152   FX-MSKX5-96            <-> FX-MSKX5-98            [100G IP only]
+  "152": {dataRef: "lk152", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 320   FX-MSKX5-96            <-> FX-MSKX5-98            [100G IP only]   # дубль линии 152
+  "320": {dataRef: "lk152", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 153   FX-MSKX5-96            <-> FX-MSKX5-99            [100G IP only]
+  "153": {dataRef: "lk153", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 321   FX-MSKX5-96            <-> FX-MSKX5-99            [100G IP only]   # дубль линии 153
+  "321": {dataRef: "lk153", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 151   FX-MSKX5-97            <-> FX-MSKX5-96            [100G IP + MPLS-LDP]
+  "151": {dataRef: "lk151", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 319   FX-MSKX5-97            <-> FX-MSKX5-96            [100G IP + MPLS-LDP]   # дубль линии 151
+  "319": {dataRef: "lk151", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 154   FX-MSKX5-97            <-> FX-MSKX5-98            [100G IP only]
+  "154": {dataRef: "lk154", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 322   FX-MSKX5-97            <-> FX-MSKX5-98            [100G IP only]   # дубль линии 154
+  "322": {dataRef: "lk154", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 155   FX-MSKX5-97            <-> FX-MSKX5-99            [100G IP only]
+  "155": {dataRef: "lk155", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 323   FX-MSKX5-97            <-> FX-MSKX5-99            [100G IP only]   # дубль линии 155
+  "323": {dataRef: "lk155", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 137   FX-MSKX5-PCI90         <-> MS-MSKX5-0001          [100G IP only]
+  "137": {dataRef: "lk137", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 305   FX-MSKX5-PCI90         <-> MS-MSKX5-0001          [100G IP only]   # дубль линии 137
+  "305": {dataRef: "lk137", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 139   FX-MSKX5-PCI90         <-> MS-MSKX5-0002          [100G IP only]
+  "139": {dataRef: "lk139", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 307   FX-MSKX5-PCI90         <-> MS-MSKX5-0002          [100G IP only]   # дубль линии 139
+  "307": {dataRef: "lk139", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 141   FX-MSKX5-PCI91         <-> FX-MSKX5-PCI90         [40G IP only]
+  "141": {dataRef: "lk141", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 309   FX-MSKX5-PCI91         <-> FX-MSKX5-PCI90         [40G IP only]   # дубль линии 141
+  "309": {dataRef: "lk141", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 140   FX-MSKX5-PCI91         <-> MS-MSKX5-0001          [100G IP only]
+  "140": {dataRef: "lk140", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 308   FX-MSKX5-PCI91         <-> MS-MSKX5-0001          [100G IP only]   # дубль линии 140
+  "308": {dataRef: "lk140", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 138   FX-MSKX5-PCI91         <-> MS-MSKX5-0002          [100G IP only]
+  "138": {dataRef: "lk138", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 306   FX-MSKX5-PCI91         <-> MS-MSKX5-0002          [100G IP only]   # дубль линии 138
+  "306": {dataRef: "lk138", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 148   MS-MSKX5-0001          <-> FX-MSKX5-96            [100G IP + MPLS-LDP]
+  "148": {dataRef: "lk148", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 316   MS-MSKX5-0001          <-> FX-MSKX5-96            [100G IP + MPLS-LDP]   # дубль линии 148
+  "316": {dataRef: "lk148", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 150   MS-MSKX5-0001          <-> FX-MSKX5-97            [100G IP + MPLS-LDP]
+  "150": {dataRef: "lk150", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 318   MS-MSKX5-0001          <-> FX-MSKX5-97            [100G IP + MPLS-LDP]   # дубль линии 150
+  "318": {dataRef: "lk150", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 149   MS-MSKX5-0002          <-> FX-MSKX5-96            [100G IP + MPLS-LDP]
+  "149": {dataRef: "lk149", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 317   MS-MSKX5-0002          <-> FX-MSKX5-96            [100G IP + MPLS-LDP]   # дубль линии 149
+  "317": {dataRef: "lk149", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 147   MS-MSKX5-0002          <-> FX-MSKX5-97            [100G IP + MPLS-LDP]
+  "147": {dataRef: "lk147", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 315   MS-MSKX5-0002          <-> FX-MSKX5-97            [100G IP + MPLS-LDP]   # дубль линии 147
+  "315": {dataRef: "lk147", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 142   MS-MSKX5-0002          <-> MS-MSKX5-0001          [100G IP + MPLS-LDP + PIM]
+  "142": {dataRef: "lk142", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 310   MS-MSKX5-0002          <-> MS-MSKX5-0001          [100G IP + MPLS-LDP + PIM]   # дубль линии 142
+  "310": {dataRef: "lk142", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 146   MS-MSKX5-0009          <-> MS-MSKX5-0001          [100G IP + MPLS-LDP + PIM]
+  "146": {dataRef: "lk146", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 314   MS-MSKX5-0009          <-> MS-MSKX5-0001          [100G IP + MPLS-LDP + PIM]   # дубль линии 146
+  "314": {dataRef: "lk146", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 145   MS-MSKX5-0009          <-> MS-MSKX5-0002          [100G IP + MPLS-LDP + PIM]
+  "145": {dataRef: "lk145", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 313   MS-MSKX5-0009          <-> MS-MSKX5-0002          [100G IP + MPLS-LDP + PIM]   # дубль линии 145
+  "313": {dataRef: "lk145", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 144   MS-MSKX5-0010          <-> MS-MSKX5-0001          [100G IP + MPLS-LDP + PIM]
+  "144": {dataRef: "lk144", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 312   MS-MSKX5-0010          <-> MS-MSKX5-0001          [100G IP + MPLS-LDP + PIM]   # дубль линии 144
+  "312": {dataRef: "lk144", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 143   MS-MSKX5-0010          <-> MS-MSKX5-0002          [100G IP + MPLS-LDP + PIM]
+  "143": {dataRef: "lk143", strokeColor: {thresholdsRef: "linkUtil"}}
+  # 311   MS-MSKX5-0010          <-> MS-MSKX5-0002          [100G IP + MPLS-LDP + PIM]   # дубль линии 143
+  "311": {dataRef: "lk143", strokeColor: {thresholdsRef: "linkUtil"}}

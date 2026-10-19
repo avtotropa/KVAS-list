@@ -1,0 +1,39 @@
+---
+# ------------------------------------------------------------------------------
+# FLOW — общие настройки для всех панелей (siteConfig).
+# Пороговые наборы вынесены сюда, чтобы util/status-конфиги ссылались на них
+# через thresholdsRef и не дублировали цифры.
+# ------------------------------------------------------------------------------
+
+thresholds:
+  # Нагрузка интерфейса, % от скорости (0..100)
+  linkUtil:
+    - {color: "green",  level: 0}
+    - {color: "yellow", level: 70}
+    - {color: "orange", level: 85}
+    - {color: "red",    level: 95}
+
+  # Состояние линка: ifOperStatus (1=up, 2=down, 3=testing, 5=dormant, 6=notPresent, 7=lowerLayerDown)
+  linkStatus:
+    - {color: "green", level: 0}      # 0..1.4  -> up
+    - {color: "red",   level: 1.5}    # 1.5..   -> down и всё остальное
+
+  # Ошибки/дропы в секунду (сумма in+out)
+  linkErrors:
+    - {color: "green",  level: 0}
+    - {color: "yellow", level: 1}
+    - {color: "red",    level: 10}
+
+# Названия цветов Grafana -> конкретные цвета под тему оформления.
+# (если тема не важна — блок можно удалить)
+cellColorMappings:
+  darkTheme:
+    green: "green"
+    yellow: "yellow"
+    orange: "orange"
+    red: "red"
+  lightTheme:
+    green: "semi-dark-green"
+    yellow: "semi-dark-yellow"
+    orange: "semi-dark-orange"
+    red: "semi-dark-red"
